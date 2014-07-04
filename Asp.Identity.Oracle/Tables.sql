@@ -1,9 +1,17 @@
-﻿CREATE TABLE SYSADM.ASP_IDNTY_USER
+﻿create table ASP_IDNTY_USER
 (
-    id              VARCHAR2 (45 BYTE) NOT NULL,
-    username        VARCHAR2 (45 BYTE),
-    passwordhash    VARCHAR2 (100 BYTE),
-    securitystamp   VARCHAR2 (45 BYTE)
+  id                         VARCHAR2(45) not null,
+  username                   VARCHAR2(45),
+  passwordhash               VARCHAR2(100),
+  securitystamp              VARCHAR2(45),
+  email                      VARCHAR2(100),
+  email_confirmed_flag       VARCHAR2(1) default 'N' not null,
+  phonenumber                VARCHAR2(25),
+  phonenumber_confirmed_flag VARCHAR2(1) default 'N' not null,
+  twofactorenabled_flag      VARCHAR2(1) default 'N' not null,
+  lockoutenddateutc          DATE,
+  lockoutenabled_flag        VARCHAR2(1) default 'N' not null,
+  accessfailedcount          NUMBER default 0 not null
 )
 /
 
