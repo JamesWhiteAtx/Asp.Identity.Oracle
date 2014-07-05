@@ -14,14 +14,14 @@ using Asp.Identity.Oracle;
 namespace Asp.Identity.Oracle
 {
     public partial class UserStore :
-        IQueryableUserStore<User, string>, IUserPasswordStore<User, string>, IUserLoginStore<User, string>,
-        IUserClaimStore<User, string>, IUserRoleStore<User, string>, IUserSecurityStampStore<User, string>,
-        IUserEmailStore<User, string>, IUserPhoneNumberStore<User, string>, IUserTwoFactorStore<User, string>,
-        IUserLockoutStore<User, string>
+        IQueryableUserStore<IdentityUser, string>, IUserPasswordStore<IdentityUser, string>, IUserLoginStore<IdentityUser, string>,
+        IUserClaimStore<IdentityUser, string>, IUserRoleStore<IdentityUser, string>, IUserSecurityStampStore<IdentityUser, string>,
+        IUserEmailStore<IdentityUser, string>, IUserPhoneNumberStore<IdentityUser, string>, IUserTwoFactorStore<IdentityUser, string>,
+        IUserLockoutStore<IdentityUser, string>
     {
-        private readonly AspIdentity db;
+        private readonly IdentityDbContext db;
 
-        public UserStore(AspIdentity db)
+        public UserStore(IdentityDbContext db)
         {
             if (db == null)
             {
@@ -31,60 +31,60 @@ namespace Asp.Identity.Oracle
             this.db = db;
         }
 
-        //// IQueryableUserStore<User, int>
+        //// IQueryableUserStore<IdentityUser, int>
 
-        public IQueryable<User> Users
+        public IQueryable<IdentityUser> Users
         {
-            get { return this.db.Users; }
+            get { return this.db.IdentityUsers; }
         }
 
-        //// IUserStore<User, Key>
+        //// IUserStore<IdentityUser, Key>
 
-        public Task CreateAsync(User user)
+        public Task CreateAsync(IdentityUser user)
         {
-            this.db.Users.Add(user);
+            this.db.IdentityUsers.Add(user);
             return this.db.SaveEF5ChangesAsync(); //this.db.SaveEF5ChangesAsync();
         }
 
-        public Task DeleteAsync(User user)
+        public Task DeleteAsync(IdentityUser user)
         {
-            this.db.Users.Remove(user);
+            this.db.IdentityUsers.Remove(user);
             return this.db.SaveEF5ChangesAsync();
         }
 
-        public Task<User> FindByIdAsync(string userId)
+        public Task<IdentityUser> FindByIdAsync(string userId)
         {
-            //return this.db.Users
+            //return this.db.IdentityUsers
             //    .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
             //    .FirstOrDefaultAsync(u => u.Id.Equals(userId));
-            return db.WrapWait<User>(() => 
-                this.db.Users
+            return db.WrapWait<IdentityUser>(() => 
+                this.db.IdentityUsers
                     .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
                     .FirstOrDefault(u => u.Id.Equals(userId))
                 );
         }
 
-        public Task<User> FindByNameAsync(string userName)
+        public Task<IdentityUser> FindByNameAsync(string userName)
         {
-            //return this.db.Users
+            //return this.db.IdentityUsers
             //    .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
             //    .FirstOrDefaultAsync(u => u.UserName == userName);
-            return db.WrapWait<User>(() =>
-                this.db.Users
+            return db.WrapWait<IdentityUser>(() =>
+                this.db.IdentityUsers
                     .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
                     .FirstOrDefault(u => u.UserName == userName)
                 );
         }
 
-        public Task UpdateAsync(User user)
+        public Task UpdateAsync(IdentityUser user)
         {
-            this.db.Entry<User>(user).State = System.Data.EntityState.Modified;
+            this.db.Entry<IdentityUser>(user).State = System.Data.EntityState.Modified;
             return this.db.SaveEF5ChangesAsync();
         } 
 
-        //// IUserPasswordStore<User, Key>
+        //// IUserPasswordStore<IdentityUser, Key>
 
-        public Task<string> GetPasswordHashAsync(User user)
+        public Task<string> GetPasswordHashAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -94,12 +94,12 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.PasswordHash);
         }
 
-        public Task<bool> HasPasswordAsync(User user)
+        public Task<bool> HasPasswordAsync(IdentityUser user)
         {
             return Task.FromResult(user.PasswordHash != null);
         }
 
-        public Task SetPasswordHashAsync(User user, string passwordHash)
+        public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
         {
             if (user == null)
             {
@@ -110,9 +110,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         } 
 
-        //// IUserLoginStore<User, Key>
+        //// IUserLoginStore<IdentityUser, Key>
 
-        public Task AddLoginAsync(User user, UserLoginInfo login)
+        public Task AddLoginAsync(IdentityUser user, UserLoginInfo login)
         {
             if (user == null)
             {
@@ -124,7 +124,7 @@ namespace Asp.Identity.Oracle
                 throw new ArgumentNullException("login");
             }
 
-            var userLogin = Activator.CreateInstance<UserLogin>();
+            var userLogin = Activator.CreateInstance<IdentityUserLogin>();
             userLogin.UserId = user.Id;
             userLogin.LoginProvider = login.ProviderKey;
             userLogin.ProviderKey = login.ProviderKey;
@@ -132,7 +132,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public async Task<User> FindAsync(UserLoginInfo login)
+        public async Task<IdentityUser> FindAsync(UserLoginInfo login)
         {
             if (login == null)
             {
@@ -142,25 +142,25 @@ namespace Asp.Identity.Oracle
             var provider = login.LoginProvider;
             var key = login.ProviderKey;
 
-            //var userLogin = await this.db.UserLogins.FirstOrDefaultAsync(l => l.LoginProvider == provider && l.ProviderKey == key);
-            var userLogin = await db.WrapWait<UserLogin>(() => this.db.UserLogins.FirstOrDefault(l => l.LoginProvider == provider && l.ProviderKey == key));
+            //var userLogin = await this.db.IdentityUserLogins.FirstOrDefaultAsync(l => l.LoginProvider == provider && l.ProviderKey == key);
+            var userLogin = await db.WrapWait<IdentityUserLogin>(() => this.db.IdentityUserLogins.FirstOrDefault(l => l.LoginProvider == provider && l.ProviderKey == key));
 
             if (userLogin == null)
             {
-                return default(User);
+                return default(IdentityUser);
             }
 
-            //return await this.db.Users
+            //return await this.db.IdentityUsers
             //    .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
             //    .FirstOrDefaultAsync(u => u.Id.Equals(userLogin.UserId));
-            return await db.WrapWait<User>(() => 
-                this.db.Users
+            return await db.WrapWait<IdentityUser>(() => 
+                this.db.IdentityUsers
                     .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
                     .FirstOrDefault(u => u.Id.Equals(userLogin.UserId))
                 );
         }
 
-        public Task<IList<UserLoginInfo>> GetLoginsAsync(User user)
+        public Task<IList<UserLoginInfo>> GetLoginsAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -170,7 +170,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult<IList<UserLoginInfo>>(user.Logins.Select(l => new UserLoginInfo(l.LoginProvider, l.ProviderKey)).ToList());
         }
 
-        public Task RemoveLoginAsync(User user, UserLoginInfo login)
+        public Task RemoveLoginAsync(IdentityUser user, UserLoginInfo login)
         {
             if (user == null)
             {
@@ -195,9 +195,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         } 
 
-        //// IUserClaimStore<User, int>
+        //// IUserClaimStore<IdentityUser, int>
 
-        public Task AddClaimAsync(User user, Claim claim)
+        public Task AddClaimAsync(IdentityUser user, Claim claim)
         {
             if (user == null)
             {
@@ -209,7 +209,7 @@ namespace Asp.Identity.Oracle
                 throw new ArgumentNullException("claim");
             }
 
-            var item = Activator.CreateInstance<UserClaim>();
+            var item = Activator.CreateInstance<IdentityUserClaim>();
             item.UserId = user.Id;
             item.ClaimType = claim.Type;
             item.ClaimValue = claim.Value;
@@ -217,7 +217,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(User user)
+        public Task<IList<Claim>> GetClaimsAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -227,7 +227,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult<IList<Claim>>(user.Claims.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList());
         }
 
-        public Task RemoveClaimAsync(User user, Claim claim)
+        public Task RemoveClaimAsync(IdentityUser user, Claim claim)
         {
             if (user == null)
             {
@@ -244,17 +244,17 @@ namespace Asp.Identity.Oracle
                 user.Claims.Remove(item);
             }
 
-            foreach (var item in this.db.UserClaims.Where(uc => uc.UserId.Equals(user.Id) && uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type).ToList())
+            foreach (var item in this.db.IdentityUserClaims.Where(uc => uc.UserId.Equals(user.Id) && uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type).ToList())
             {
-                this.db.UserClaims.Remove(item);
+                this.db.IdentityUserClaims.Remove(item);
             }
 
             return Task.FromResult(0);
         } 
 
-        //// IUserRoleStore<User, int>
+        //// IUserRoleStore<IdentityUser, int>
 
-        public Task AddToRoleAsync(User user, string roleName)
+        public Task AddToRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
             {
@@ -266,7 +266,7 @@ namespace Asp.Identity.Oracle
                 throw new ArgumentException("Value Cannot Be Null Or Empty", "roleName");
             }
 
-            var userRole = this.db.UserRoles.SingleOrDefault(r => r.Name == roleName);
+            var userRole = this.db.IdentityUserRoles.SingleOrDefault(r => r.Name == roleName);
 
             if (userRole == null)
             {
@@ -277,17 +277,17 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task<IList<string>> GetRolesAsync(User user)
+        public Task<IList<string>> GetRolesAsync(IdentityUser user)
         {
             if (user == null)
             {
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult<IList<string>>(user.Roles.Join(this.db.UserRoles, ur => ur.Id, r => r.Id, (ur, r) => r.Name).ToList());
+            return Task.FromResult<IList<string>>(user.Roles.Join(this.db.IdentityUserRoles, ur => ur.Id, r => r.Id, (ur, r) => r.Name).ToList());
         }
 
-        public Task<bool> IsInRoleAsync(User user, string roleName)
+        public Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
             {
@@ -301,10 +301,10 @@ namespace Asp.Identity.Oracle
 
             return
                 Task.FromResult<bool>(
-                    this.db.UserRoles.Any(r => r.Name == roleName && r.Users.Any(u => u.Id.Equals(user.Id))));
+                    this.db.IdentityUserRoles.Any(r => r.Name == roleName && r.Users.Any(u => u.Id.Equals(user.Id))));
         }
 
-        public Task RemoveFromRoleAsync(User user, string roleName)
+        public Task RemoveFromRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
             {
@@ -326,9 +326,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         } 
 
-        //// IUserSecurityStampStore<User, int>
+        //// IUserSecurityStampStore<IdentityUser, int>
 
-        public Task<string> GetSecurityStampAsync(User user)
+        public Task<string> GetSecurityStampAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -338,7 +338,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.SecurityStamp);
         }
 
-        public Task SetSecurityStampAsync(User user, string stamp)
+        public Task SetSecurityStampAsync(IdentityUser user, string stamp)
         {
             if (user == null)
             {
@@ -349,22 +349,22 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         } 
 
-        //// IUserEmailStore<User, int>
+        //// IUserEmailStore<IdentityUser, int>
 
-        public Task<User> FindByEmailAsync(string email)
+        public Task<IdentityUser> FindByEmailAsync(string email)
         {
-            //return this.db.Users
+            //return this.db.IdentityUsers
             //    .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
             //    .FirstOrDefaultAsync(u => u.Email == email);
 
-            return db.WrapWait<User>(() => 
-                this.db.Users
+            return db.WrapWait<IdentityUser>(() => 
+                this.db.IdentityUsers
                     .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
                     .FirstOrDefault(u => u.Email == email)
                 );
         }
 
-        public Task<string> GetEmailAsync(User user)
+        public Task<string> GetEmailAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -374,7 +374,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.Email);
         }
 
-        public Task<bool> GetEmailConfirmedAsync(User user)
+        public Task<bool> GetEmailConfirmedAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -384,7 +384,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.EmailConfirmed);
         }
 
-        public Task SetEmailAsync(User user, string email)
+        public Task SetEmailAsync(IdentityUser user, string email)
         {
             if (user == null)
             {
@@ -395,7 +395,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task SetEmailConfirmedAsync(User user, bool confirmed)
+        public Task SetEmailConfirmedAsync(IdentityUser user, bool confirmed)
         {
             if (user == null)
             {
@@ -406,9 +406,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        //// IUserPhoneNumberStore<User, int>
+        //// IUserPhoneNumberStore<IdentityUser, int>
 
-        public Task<string> GetPhoneNumberAsync(User user)
+        public Task<string> GetPhoneNumberAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -418,7 +418,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.PhoneNumber);
         }
 
-        public Task<bool> GetPhoneNumberConfirmedAsync(User user)
+        public Task<bool> GetPhoneNumberConfirmedAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -428,7 +428,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.PhoneNumberConfirmed);
         }
 
-        public Task SetPhoneNumberAsync(User user, string phoneNumber)
+        public Task SetPhoneNumberAsync(IdentityUser user, string phoneNumber)
         {
             if (user == null)
             {
@@ -439,7 +439,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task SetPhoneNumberConfirmedAsync(User user, bool confirmed)
+        public Task SetPhoneNumberConfirmedAsync(IdentityUser user, bool confirmed)
         {
             if (user == null)
             {
@@ -450,9 +450,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        //// IUserTwoFactorStore<User, int>
+        //// IUserTwoFactorStore<IdentityUser, int>
 
-        public Task<bool> GetTwoFactorEnabledAsync(User user)
+        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -462,7 +462,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.TwoFactorEnabled);
         }
 
-        public Task SetTwoFactorEnabledAsync(User user, bool enabled)
+        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
         {
             if (user == null)
             {
@@ -473,9 +473,9 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        //// IUserLockoutStore<User, int>
+        //// IUserLockoutStore<IdentityUser, int>
 
-        public Task<int> GetAccessFailedCountAsync(User user)
+        public Task<int> GetAccessFailedCountAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -485,7 +485,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.AccessFailedCount);
         }
 
-        public Task<bool> GetLockoutEnabledAsync(User user)
+        public Task<bool> GetLockoutEnabledAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -495,7 +495,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.LockoutEnabled);
         }
 
-        public Task<DateTimeOffset> GetLockoutEndDateAsync(User user)
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -508,7 +508,7 @@ namespace Asp.Identity.Oracle
                     new DateTimeOffset());
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(User user)
+        public Task<int> IncrementAccessFailedCountAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -519,7 +519,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(user.AccessFailedCount);
         }
 
-        public Task ResetAccessFailedCountAsync(User user)
+        public Task ResetAccessFailedCountAsync(IdentityUser user)
         {
             if (user == null)
             {
@@ -530,7 +530,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task SetLockoutEnabledAsync(User user, bool enabled)
+        public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled)
         {
             if (user == null)
             {
@@ -541,7 +541,7 @@ namespace Asp.Identity.Oracle
             return Task.FromResult(0);
         }
 
-        public Task SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
+        public Task SetLockoutEndDateAsync(IdentityUser user, DateTimeOffset lockoutEnd)
         {
             if (user == null)
             {

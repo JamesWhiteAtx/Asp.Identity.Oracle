@@ -12,13 +12,13 @@ namespace Asp.Identity.Oracle
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class IdentityUser
     {
-        public User()
+        public IdentityUser()
         {
-            this.Claims = new HashSet<UserClaim>();
-            this.Roles = new HashSet<UserRole>();
-            this.Logins = new HashSet<UserLogin>();
+            this.Claims = new HashSet<IdentityUserClaim>();
+            this.Roles = new HashSet<IdentityUserRole>();
+            this.Logins = new HashSet<IdentityUserLogin>();
         }
     
         public string Id { get; set; }
@@ -34,8 +34,8 @@ namespace Asp.Identity.Oracle
         public string LockoutEnabledFlag { get; set; }
         public int AccessFailedCount { get; set; }
     
-        public virtual ICollection<UserClaim> Claims { get; set; }
-        public virtual ICollection<UserRole> Roles { get; set; }
-        public virtual ICollection<UserLogin> Logins { get; set; }
+        public virtual ICollection<IdentityUserClaim> Claims { get; set; }
+        public virtual ICollection<IdentityUserRole> Roles { get; set; }
+        public virtual ICollection<IdentityUserLogin> Logins { get; set; }
     }
 }

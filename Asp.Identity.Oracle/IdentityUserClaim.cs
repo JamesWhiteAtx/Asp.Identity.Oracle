@@ -12,13 +12,13 @@ namespace Asp.Identity.Oracle
     using System;
     using System.Collections.Generic;
     
-    public partial class UserClaim
+    public partial class IdentityUserClaim
     {
         public decimal Id { get; set; }
         public string UserId { get; set; }
         public string ClaimType { get; set; }
         public string ClaimValue { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual IdentityUser User { get; set; }
     }
 }

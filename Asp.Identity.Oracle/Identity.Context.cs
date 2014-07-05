@@ -13,10 +13,10 @@ namespace Asp.Identity.Oracle
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AspIdentity : DbContext
+    public partial class IdentityDbContext : DbContext
     {
-        public AspIdentity()
-            : base("name=AspIdentity")
+        public IdentityDbContext()
+            : base("name=IdentityDbContext")
         {
         }
     
@@ -25,9 +25,9 @@ namespace Asp.Identity.Oracle
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserClaim> UserClaims { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<IdentityUserRole> IdentityUserRoles { get; set; }
+        public DbSet<IdentityUser> IdentityUsers { get; set; }
+        public DbSet<IdentityUserClaim> IdentityUserClaims { get; set; }
+        public DbSet<IdentityUserLogin> IdentityUserLogins { get; set; }
     }
 }

@@ -4,7 +4,11 @@ namespace Asp.Identity.Oracle
 {
     using Microsoft.AspNet.Identity;
 
-    public partial class UserRole : IRole<string>
+    public partial class IdentityUserRole : IdentityUserRole<string>
+    {
+    }
+
+    public class IdentityUserRole<TKey>
     {
     }
 }

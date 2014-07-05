@@ -12,12 +12,16 @@ namespace Asp.Identity.Oracle
     using System;
     using System.Collections.Generic;
     
-    public partial class UserLogin
+    public partial class IdentityUserRole
     {
-        public string UserId { get; set; }
-        public string ProviderKey { get; set; }
-        public string LoginProvider { get; set; }
+        public IdentityUserRole()
+        {
+            this.Users = new HashSet<IdentityUser>();
+        }
     
-        public virtual User User { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<IdentityUser> Users { get; set; }
     }
 }
