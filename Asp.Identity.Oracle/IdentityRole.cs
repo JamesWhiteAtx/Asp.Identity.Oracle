@@ -12,9 +12,9 @@ namespace Asp.Identity.Oracle
     using System;
     using System.Collections.Generic;
     
-    public partial class IdentityUserRole
+    public partial class IdentityRole
     {
-        public IdentityUserRole()
+        public IdentityRole()
         {
             this.Users = new HashSet<IdentityUser>();
         }

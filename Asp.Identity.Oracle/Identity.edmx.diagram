@@ -12,12 +12,12 @@
         <AssociationConnector Association="IdentityDbContext.Oracle.ASP_IDNTY_USER_ROLE" />
         <EntityTypeShape EntityType="IdentityDbContext.Oracle.IdentityUserLogin" Width="1.5" PointX="5.375" PointY="1.125" />
         <AssociationConnector Association="IdentityDbContext.Oracle.FK_ASPIDNTYLOGIN_USERID" />
-        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUser" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUserClaim" Width="2" PointX="5.625" PointY="0.875" />
+        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUser" Width="1.5" PointX="3.125" PointY="0.75" />
+        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUserClaim" Width="2" PointX="5.625" PointY="0.75" />
         <AssociationConnector Association="AspIdentity.Oracle.FK_ASPIDNTYCLAIM_USERID" />
-        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUserLogin" Width="1.875" PointX="0.625" PointY="1.875" />
+        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUserLogin" Width="1.875" PointX="5.625" PointY="2.875" />
         <AssociationConnector Association="AspIdentity.Oracle.FK_ASPIDNTYLOGIN_USERID" />
-        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityUserRole" Width="2" PointX="5.5" PointY="3.25" />
+        <EntityTypeShape EntityType="AspIdentity.Oracle.IdentityRole" Width="2" PointX="0.625" PointY="1.375" />
         <AssociationConnector Association="AspIdentity.Oracle.ASP_IDNTY_USER_ROLE" />
       </Diagram>
     </edmx:Diagrams>

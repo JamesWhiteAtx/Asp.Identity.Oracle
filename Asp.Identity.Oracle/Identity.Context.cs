@@ -25,9 +25,9 @@ namespace Asp.Identity.Oracle
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<IdentityUserRole> IdentityUserRoles { get; set; }
-        public DbSet<IdentityUser> IdentityUsers { get; set; }
-        public DbSet<IdentityUserClaim> IdentityUserClaims { get; set; }
-        public DbSet<IdentityUserLogin> IdentityUserLogins { get; set; }
+        public DbSet<IdentityRole> Roles { get; set; }
+        public DbSet<IdentityUser> Users { get; set; }
+        public DbSet<IdentityUserClaim> Claims { get; set; }
+        public DbSet<IdentityUserLogin> Logins { get; set; }
     }
 }

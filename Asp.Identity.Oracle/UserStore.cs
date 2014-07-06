@@ -13,6 +13,338 @@ using Asp.Identity.Oracle;
 
 namespace Asp.Identity.Oracle
 {
+    public class UserStoreX<TUser, TKey, TRole, TUserLogin, TUserClaim> : 
+        IUserStore<TUser, TKey>,
+        IQueryableUserStore<TUser, TKey>, 
+        IUserPasswordStore<TUser, TKey>, 
+        IUserLoginStore<TUser, TKey>,
+        IUserClaimStore<TUser, TKey>, 
+        IUserRoleStore<TUser, TKey>, 
+        IUserSecurityStampStore<TUser, TKey>,
+        IUserEmailStore<TUser, TKey>, 
+        IUserPhoneNumberStore<TUser, TKey>,
+        IUserTwoFactorStore<TUser, TKey>,
+        IUserLockoutStore<TUser, TKey>
+        where TKey : IEquatable<TKey>
+        where TUser : IdentityUser
+        where TRole : IdentityRole
+        where TUserLogin : IdentityUserLogin, new()
+        where TUserClaim : IdentityUserClaim, new()
+
+    {
+        private bool _disposed;
+
+        /// <summary>
+        ///     Constructor which takes a db context and wires up the stores with default instances using the context
+        /// </summary>
+        /// <param name="context"></param>
+        public UserStoreX(IdentityDbContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            Context = context;
+        }
+
+        /// <summary>
+        ///     Context for the store
+        /// </summary>
+        public IdentityDbContext Context { get; private set; }
+
+        //IDisposable
+        #region IDisposable
+
+        /// <summary>
+        ///     If true will call dispose on the DbContext during Dipose
+        /// </summary>
+        public bool DisposeContext { get; set; }
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().Name);
+            }
+        }
+
+        /// <summary>
+        ///     If disposing, calls dispose on the Context.  Always nulls out the Context
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (DisposeContext && disposing && Context != null)
+            {
+                Context.Dispose();
+            }
+            _disposed = true;
+            Context = null;
+        }
+
+        #endregion IDisposable
+
+        // IQueryableUserStore
+        #region IQueryableUserStore
+        
+        public IQueryable<IdentityUser> Users
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion IQueryableUserStore
+
+        //IUserStore
+        #region IUserStore
+
+        public Task CreateAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityUser> FindByIdAsync(string userId)
+        {
+            return Context.WrapWait<IdentityUser>(() =>
+                Context.Users
+                    .Include(u => u.Logins).Include(u => u.Roles).Include(u => u.Claims)
+                    .FirstOrDefault(u => u.Id.Equals(userId))
+                );
+        }
+
+        public Task<IdentityUser> FindByNameAsync(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserStore
+
+        //IUserPasswordStore
+        #region IUserPasswordStore
+
+        public Task<string> GetPasswordHashAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> HasPasswordAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserPasswordStore
+
+        // IUserLoginStore
+        #region IUserLoginStore
+
+        public Task AddLoginAsync(IdentityUser user, UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityUser> FindAsync(UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<UserLoginInfo>> GetLoginsAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveLoginAsync(IdentityUser user, UserLoginInfo login)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserLoginStore
+
+        // IUserClaimStore
+        #region IUserClaimStore
+
+        public Task AddClaimAsync(IdentityUser user, Claim claim)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Claim>> GetClaimsAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveClaimAsync(IdentityUser user, Claim claim)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserClaimStore
+
+        // IUserRoleStore
+        #region IUserRoleStore
+
+        public Task AddToRoleAsync(IdentityUser user, string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<string>> GetRolesAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveFromRoleAsync(IdentityUser user, string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserRoleStore
+
+        // IUserSecurityStampStore
+        #region IUserSecurityStampStore
+
+        public Task<string> GetSecurityStampAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetSecurityStampAsync(IdentityUser user, string stamp)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserSecurityStampStore
+
+        // IUserEmailStore
+        #region IUserEmailStore
+
+        public Task<IdentityUser> FindByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetEmailAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetEmailAsync(IdentityUser user, string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetEmailConfirmedAsync(IdentityUser user, bool confirmed)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserEmailStore
+
+        // IUserPhoneNumberStore
+        #region IUserPhoneNumberStore
+
+        public Task<string> GetPhoneNumberAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetPhoneNumberConfirmedAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetPhoneNumberAsync(IdentityUser user, string phoneNumber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetPhoneNumberConfirmedAsync(IdentityUser user, bool confirmed)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserPhoneNumberStore
+
+        //IUserTwoFactorStore
+        #region IUserTwoFactorStore
+
+        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserTwoFactorStore
+
+        // IUserLockoutStore
+        #region IUserLockoutStore
+
+        public Task<int> GetAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEndDateAsync(IdentityUser user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IUserLockoutStore
+
+    }
+
     public partial class UserStore :
         IQueryableUserStore<IdentityUser, string>, IUserPasswordStore<IdentityUser, string>, IUserLoginStore<IdentityUser, string>,
         IUserClaimStore<IdentityUser, string>, IUserRoleStore<IdentityUser, string>, IUserSecurityStampStore<IdentityUser, string>,

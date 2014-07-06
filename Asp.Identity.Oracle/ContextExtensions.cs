@@ -55,7 +55,7 @@ namespace Asp.Identity.Oracle
             if (entityEntry != null && entityEntry.State == EntityState.Added)
             {
                 var errors = new List<DbValidationError>();
-                var user = entityEntry.Entity as TUser;
+                var user = entityEntry.Entity as IdentityUser;// TUser;
                 //check for uniqueness of user name and email
                 if (user != null)
                 {
@@ -72,7 +72,7 @@ namespace Asp.Identity.Oracle
                 }
                 else
                 {
-                    var role = entityEntry.Entity as TRole;
+                    var role = entityEntry.Entity as IdentityRole; // TRole;
                     //check for uniqueness of role name
                     if (role != null && Roles.Any(r => String.Equals(r.Name, role.Name)))
                     {

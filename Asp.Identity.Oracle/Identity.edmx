@@ -136,24 +136,24 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AspIdentity.Oracle" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="IdentityDbContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="IdentityUserRoles" EntityType="AspIdentity.Oracle.IdentityUserRole" />
-          <EntitySet Name="IdentityUsers" EntityType="AspIdentity.Oracle.IdentityUser" />
-          <EntitySet Name="IdentityUserClaims" EntityType="AspIdentity.Oracle.IdentityUserClaim" />
+          <EntitySet Name="Roles" EntityType="AspIdentity.Oracle.IdentityRole" />
+          <EntitySet Name="Users" EntityType="AspIdentity.Oracle.IdentityUser" />
+          <EntitySet Name="Claims" EntityType="AspIdentity.Oracle.IdentityUserClaim" />
           <AssociationSet Name="FK_ASPIDNTYCLAIM_USERID" Association="AspIdentity.Oracle.FK_ASPIDNTYCLAIM_USERID">
-            <End Role="ASP_IDNTY_USER" EntitySet="IdentityUsers" />
-            <End Role="ASP_IDNTY_USER_CLAIM" EntitySet="IdentityUserClaims" />
+            <End Role="ASP_IDNTY_USER" EntitySet="Users" />
+            <End Role="ASP_IDNTY_USER_CLAIM" EntitySet="Claims" />
           </AssociationSet>
           <AssociationSet Name="ASP_IDNTY_USER_ROLE" Association="AspIdentity.Oracle.ASP_IDNTY_USER_ROLE">
-            <End Role="ASP_IDNTY_USER" EntitySet="IdentityUsers" />
-            <End Role="ASP_IDNTY_ROLE" EntitySet="IdentityUserRoles" />
+            <End Role="ASP_IDNTY_USER" EntitySet="Users" />
+            <End Role="ASP_IDNTY_ROLE" EntitySet="Roles" />
           </AssociationSet>
-          <EntitySet Name="IdentityUserLogins" EntityType="AspIdentity.Oracle.IdentityUserLogin" />
+          <EntitySet Name="Logins" EntityType="AspIdentity.Oracle.IdentityUserLogin" />
           <AssociationSet Name="FK_ASPIDNTYLOGIN_USERID" Association="AspIdentity.Oracle.FK_ASPIDNTYLOGIN_USERID">
-            <End Role="User" EntitySet="IdentityUsers" />
-            <End Role="ASP_IDNTY_USER_LOGIN" EntitySet="IdentityUserLogins" />
+            <End Role="User" EntitySet="Users" />
+            <End Role="ASP_IDNTY_USER_LOGIN" EntitySet="Logins" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="IdentityUserRole">
+        <EntityType Name="IdentityRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -207,7 +207,7 @@
         </Association>
         <Association Name="ASP_IDNTY_USER_ROLE">
           <End Type="AspIdentity.Oracle.IdentityUser" Role="ASP_IDNTY_USER" Multiplicity="*" />
-          <End Type="AspIdentity.Oracle.IdentityUserRole" Role="ASP_IDNTY_ROLE" Multiplicity="*" />
+          <End Type="AspIdentity.Oracle.IdentityRole" Role="ASP_IDNTY_ROLE" Multiplicity="*" />
         </Association>
         <EntityType Name="IdentityUserLogin">
           <Key>
@@ -240,15 +240,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AspIdentityOracleStoreContainer" CdmEntityContainer="IdentityDbContext">
-          <EntitySetMapping Name="IdentityUserRoles">
-            <EntityTypeMapping TypeName="AspIdentity.Oracle.IdentityUserRole">
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="AspIdentity.Oracle.IdentityRole">
               <MappingFragment StoreEntitySet="ASP_IDNTY_ROLE">
                 <ScalarProperty Name="Name" ColumnName="NAME" />
                 <ScalarProperty Name="Id" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IdentityUsers">
+          <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AspIdentity.Oracle.IdentityUser">
               <MappingFragment StoreEntitySet="ASP_IDNTY_USER">
                 <ScalarProperty Name="AccessFailedCount" ColumnName="ACCESSFAILEDCOUNT" />
@@ -266,7 +266,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IdentityUserClaims">
+          <EntitySetMapping Name="Claims">
             <EntityTypeMapping TypeName="AspIdentity.Oracle.IdentityUserClaim">
               <MappingFragment StoreEntitySet="ASP_IDNTY_USER_CLAIM">
                 <ScalarProperty Name="ClaimValue" ColumnName="CLAIMVALUE" />
@@ -284,7 +284,7 @@
               <ScalarProperty Name="Id" ColumnName="USERID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="IdentityUserLogins">
+          <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="AspIdentity.Oracle.IdentityUserLogin">
               <MappingFragment StoreEntitySet="ASP_IDNTY_USER_LOGIN">
                 <ScalarProperty Name="LoginProvider" ColumnName="LOGINPROVIDER" />

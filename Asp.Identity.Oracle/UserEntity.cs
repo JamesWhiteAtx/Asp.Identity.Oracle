@@ -9,7 +9,7 @@ namespace Asp.Identity.Oracle
     /// <summary>
     ///     Default EntityFramework IUser implementation
     /// </summary>
-    public partial class IdentityUser : IdentityUser<string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>, IUser
+    public partial class IdentityUser : IUser<string>
     {
         /// <summary>
         ///     Constructor which creates a new Guid for the Id
@@ -79,18 +79,4 @@ namespace Asp.Identity.Oracle
 
     }
 
-    /// <summary>
-    ///     Default EntityFramework IUser implementation
-    /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TLogin"></typeparam>
-    /// <typeparam name="TRole"></typeparam>
-    /// <typeparam name="TClaim"></typeparam>
-    public class IdentityUser<TKey, TLogin, TRole, TClaim> : IUser<TKey>
-        where TLogin : IdentityUserLogin<TKey>
-        where TRole : IdentityUserRole<TKey>
-        where TClaim : IdentityUserClaim<TKey>
-    {
-
-    }
 }

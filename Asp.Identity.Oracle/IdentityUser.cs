@@ -17,7 +17,7 @@ namespace Asp.Identity.Oracle
         public IdentityUser()
         {
             this.Claims = new HashSet<IdentityUserClaim>();
-            this.Roles = new HashSet<IdentityUserRole>();
+            this.Roles = new HashSet<IdentityRole>();
             this.Logins = new HashSet<IdentityUserLogin>();
         }
     
@@ -35,7 +35,7 @@ namespace Asp.Identity.Oracle
         public int AccessFailedCount { get; set; }
     
         public virtual ICollection<IdentityUserClaim> Claims { get; set; }
-        public virtual ICollection<IdentityUserRole> Roles { get; set; }
+        public virtual ICollection<IdentityRole> Roles { get; set; }
         public virtual ICollection<IdentityUserLogin> Logins { get; set; }
     }
 }
