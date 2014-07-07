@@ -50,9 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ContextExtensions.cs" />
-    <Compile Include="EntityStore.cs" />
     <Compile Include="Identity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -89,9 +87,12 @@
     <Compile Include="UserLoginEntity.cs" />
     <Compile Include="RoleEntity.cs" />
     <Compile Include="UserStore.cs" />
+    <Compile Include="UserStoreX.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="Identity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Identity.Designer.cs</LastGenOutput>
@@ -109,7 +110,9 @@
       <DependentUpon>Identity.edmx</DependentUpon>
       <LastGenOutput>Identity.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

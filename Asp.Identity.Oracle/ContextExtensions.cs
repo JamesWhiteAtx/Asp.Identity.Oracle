@@ -32,6 +32,11 @@ namespace Asp.Identity.Oracle
 
     public partial class IdentityDbContext : DbContext
     {
+        public IdentityDbContext(string connectionString)
+            : base(connectionString)
+        {
+        }
+
         // wrap sync call with async wait
         public async Task<TResult> WrapWait<TResult>(Func<TResult> function)
         {
@@ -64,7 +69,7 @@ namespace Asp.Identity.Oracle
                         errors.Add(new DbValidationError("User",
                             String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateUserName, user.UserName)));
                     }
-                    if (RequireUniqueEmail && Users.Any(u => String.Equals(u.Email, user.Email)))
+                    if (RequireUniqueEmail && Users.Any(u => String.Equals(u.Email, user.Email, StringComparison.OrdinalIgnoreCase)))
                     {
                         errors.Add(new DbValidationError("User",
                             String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateEmail, user.Email)));
@@ -74,7 +79,7 @@ namespace Asp.Identity.Oracle
                 {
                     var role = entityEntry.Entity as IdentityRole; // TRole;
                     //check for uniqueness of role name
-                    if (role != null && Roles.Any(r => String.Equals(r.Name, role.Name)))
+                    if (role != null && Roles.Any(r => String.Equals(r.Name, role.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         errors.Add(new DbValidationError("Role",
                             String.Format(CultureInfo.CurrentCulture, IdentityResources.RoleAlreadyExists, role.Name)));
