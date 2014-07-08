@@ -16,6 +16,11 @@ namespace Asp.Identity.Oracle
     {
         public IdentityUser()
         {
+            this.EmailConfirmedFlag = "N";
+            this.PhoneNumberConfirmedFlag = "N";
+            this.TwoFactorEnabledFlag = "N";
+            this.LockoutEnabledFlag = "N";
+            this.AccessFailedCount = 0;
             this.Claims = new HashSet<IdentityUserClaim>();
             this.Logins = new HashSet<IdentityUserLogin>();
             this.Roles = new HashSet<IdentityRole>();

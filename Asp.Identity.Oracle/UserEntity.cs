@@ -4,12 +4,27 @@ using Microsoft.AspNet.Identity;
 
 namespace Asp.Identity.Oracle
 {
-    public partial class IdentityUser : IUser<string>
+    public abstract class IdentityUserInit
     {
+        protected IdentityUserInit()
+        {
+            Initialize();
+        }
+
+        protected abstract void Initialize();
+    }
+
+    public partial class IdentityUser : IdentityUserInit, IUser<string>
+    {
+        protected override void Initialize()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+    
         /// <summary>
         ///     Constructor which creates a new Guid for the Id
         /// </summary>
-        //public IdentityUserX()
+        //public IdentityUser()
         //{
         //    Id = Guid.NewGuid().ToString();
         //}

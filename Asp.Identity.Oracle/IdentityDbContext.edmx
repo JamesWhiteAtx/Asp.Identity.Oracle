@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="10.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="10.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ASP_IDNTY_ROLE">
           <Key>
             <PropertyRef Name="ID" />
@@ -131,8 +131,7 @@
             <End Role="ASP_IDNTY_USER_ROLE" EntitySet="ASP_IDNTY_USER_ROLE" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -153,13 +152,13 @@
           <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="SecurityStamp" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EmailConfirmedFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailConfirmedFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" DefaultValue="N" />
           <Property Name="PhoneNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="PhoneNumberConfirmedFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TwoFactorEnabledFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumberConfirmedFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" DefaultValue="N" />
+          <Property Name="TwoFactorEnabledFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" DefaultValue="N" />
           <Property Name="LockoutEndDateUtc" Type="DateTime" />
-          <Property Name="LockoutEnabledFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="LockoutEnabledFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" DefaultValue="N" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" DefaultValue="0" />
           <NavigationProperty Name="Claims" Relationship="Self.FK_ASPIDNTYCLAIM_USERID" FromRole="ASP_IDNTY_USER" ToRole="ASP_IDNTY_USER_CLAIM" />
           <NavigationProperty Name="Logins" Relationship="Self.FK_ASPIDNTYLOGIN_USERID" FromRole="ASP_IDNTY_USER" ToRole="ASP_IDNTY_USER_LOGIN" />
           <NavigationProperty Name="Roles" Relationship="Self.ASP_IDNTY_USER_ROLE" FromRole="ASP_IDNTY_USER" ToRole="ASP_IDNTY_ROLE" />
