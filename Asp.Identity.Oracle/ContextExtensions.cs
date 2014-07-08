@@ -62,12 +62,13 @@ namespace Asp.Identity.Oracle
                 var errors = new List<DbValidationError>();
                 var user = entityEntry.Entity as IdentityUser;// TUser;
                 //check for uniqueness of user name and email
-                if (user != null)
+                if ((user != null) && (user.UserName != null))
                 {
                     if (Users.Any(u => String.Equals(u.UserName, user.UserName)))
                     {
-                        errors.Add(new DbValidationError("User",
-                            String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateUserName, user.UserName)));
+                        string dup = IdentityResources.DuplicateUserName;
+                        string msg = String.Format(CultureInfo.CurrentCulture, dup, user.UserName);
+                        errors.Add(new DbValidationError("User", msg));
                     }
                     if (RequireUniqueEmail && Users.Any(u => String.Equals(u.Email, user.Email, StringComparison.OrdinalIgnoreCase)))
                     {
