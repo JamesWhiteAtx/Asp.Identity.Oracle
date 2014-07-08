@@ -51,33 +51,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextExtensions.cs" />
-    <Compile Include="Identity.Context.cs">
+    <Compile Include="IdentityDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Identity.Context.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Identity.cs">
+    <Compile Include="IdentityDbContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Identity.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Identity.Designer.cs">
+    <Compile Include="IdentityDbContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Identity.edmx</DependentUpon>
+      <DependentUpon>IdentityDbContext.edmx</DependentUpon>
     </Compile>
     <Compile Include="IdentityResources.cs" />
     <Compile Include="IdentityRole.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="IdentityUser.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="IdentityUserClaim.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="IdentityUserLogin.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
+      <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="RoleStoreX.cs" />
     <Compile Include="UserClaimEntity.cs" />
@@ -93,22 +93,22 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Identity.edmx">
+    <EntityDeploy Include="IdentityDbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Identity.Designer.cs</LastGenOutput>
+      <LastGenOutput>IdentityDbContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Identity.Context.tt">
+    <None Include="IdentityDbContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Identity.edmx</DependentUpon>
-      <LastGenOutput>Identity.Context.cs</LastGenOutput>
+      <DependentUpon>IdentityDbContext.edmx</DependentUpon>
+      <LastGenOutput>IdentityDbContext.Context.cs</LastGenOutput>
     </None>
-    <None Include="Identity.edmx.diagram">
-      <DependentUpon>Identity.edmx</DependentUpon>
+    <None Include="IdentityDbContext.edmx.diagram">
+      <DependentUpon>IdentityDbContext.edmx</DependentUpon>
     </None>
-    <None Include="Identity.tt">
+    <None Include="IdentityDbContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Identity.edmx</DependentUpon>
-      <LastGenOutput>Identity.cs</LastGenOutput>
+      <DependentUpon>IdentityDbContext.edmx</DependentUpon>
+      <LastGenOutput>IdentityDbContext.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
