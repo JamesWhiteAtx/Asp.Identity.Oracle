@@ -62,14 +62,17 @@ namespace Asp.Identity.Oracle
                 var errors = new List<DbValidationError>();
                 var user = entityEntry.Entity as IdentityUser;// TUser;
                 //check for uniqueness of user name and email
-                if ((user != null) && (user.UserName != null))
+                if (user != null) 
                 {
-                    if (Users.Any(u => String.Equals(u.UserName, user.UserName)))
+
+                    var dupes = from u in Users select u;
+                    dupes = (user.UserName == null) ? dupes.Where(u => u.UserName == null) : dupes.Where(u => u.UserName.ToUpper() == user.UserName.ToUpper());
+                    var any = dupes.Any();
+                    if (any)
                     {
-                        string dup = IdentityResources.DuplicateUserName;
-                        string msg = String.Format(CultureInfo.CurrentCulture, dup, user.UserName);
-                        errors.Add(new DbValidationError("User", msg));
+                        errors.Add(new DbValidationError("User", String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateUserName, user.UserName)));
                     }
+                    
                     if (RequireUniqueEmail && Users.Any(u => String.Equals(u.Email, user.Email, StringComparison.OrdinalIgnoreCase)))
                     {
                         errors.Add(new DbValidationError("User",
@@ -80,7 +83,7 @@ namespace Asp.Identity.Oracle
                 {
                     var role = entityEntry.Entity as IdentityRole; // TRole;
                     //check for uniqueness of role name
-                    if (role != null && Roles.Any(r => String.Equals(r.Name, role.Name, StringComparison.OrdinalIgnoreCase)))
+                    if ((role != null) && (role.Name != null) && (Roles.Any(r => String.Equals(r.Name, role.Name, StringComparison.OrdinalIgnoreCase))))
                     {
                         errors.Add(new DbValidationError("Role",
                             String.Format(CultureInfo.CurrentCulture, IdentityResources.RoleAlreadyExists, role.Name)));
