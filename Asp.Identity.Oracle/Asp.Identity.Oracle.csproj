@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextExtensions.cs" />
+    <Compile Include="Ef5ASyncExtensions.cs" />
     <Compile Include="IdentityDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,7 +72,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IdentityResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="IdentityResourcesRaw.cs" />
     <Compile Include="IdentityRole.cs">
       <DependentUpon>IdentityDbContext.tt</DependentUpon>
     </Compile>

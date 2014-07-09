@@ -83,8 +83,9 @@
   <ItemGroup>
     <Compile Include="AppClasses.cs" />
     <Compile Include="IdentityConfig.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="EndToEndTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AppTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Asp.Identity.Oracle\Asp.Identity.Oracle.csproj">

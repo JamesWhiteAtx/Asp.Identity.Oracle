@@ -4,20 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="10.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="10.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ASP_IDNTY_ROLE">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="varchar2" MaxLength="45" Nullable="false" />
-          <Property Name="NAME" Type="varchar2" MaxLength="45" />
+          <Property Name="NAME" Type="varchar2" MaxLength="45" Nullable="false" />
         </EntityType>
         <EntityType Name="ASP_IDNTY_USER">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="varchar2" MaxLength="45" Nullable="false" />
-          <Property Name="USERNAME" Type="varchar2" MaxLength="45" />
+          <Property Name="USERNAME" Type="varchar2" MaxLength="45" Nullable="false" />
           <Property Name="PASSWORDHASH" Type="varchar2" MaxLength="100" />
           <Property Name="SECURITYSTAMP" Type="varchar2" MaxLength="45" />
           <Property Name="EMAIL" Type="varchar2" MaxLength="100" />
@@ -140,7 +140,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.ASP_IDNTY_USER_ROLE" FromRole="ASP_IDNTY_ROLE" ToRole="ASP_IDNTY_USER" />
         </EntityType>
         <EntityType Name="IdentityUser">
@@ -148,7 +148,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="SecurityStamp" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />

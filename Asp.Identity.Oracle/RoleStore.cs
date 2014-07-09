@@ -66,13 +66,15 @@ namespace Asp.Identity.Oracle
         public Task<IdentityRole> FindByIdAsync(string roleId)
         {
             ThrowIfDisposed();
-            return Context.WrapWait<IdentityRole>(() => Context.Roles.Find(new[] { roleId }));
+            //return Context.WaitResult<IdentityRole>(() => Context.Roles.Find(new[] { roleId }));
+            return Task<IdentityRole>.Run(() => Context.Roles.Find(new[] { roleId }));
         }
 
         public Task<IdentityRole> FindByNameAsync(string roleName)
         {
             ThrowIfDisposed();
-            return Context.WrapWait<IdentityRole>(() => Context.Roles.FirstOrDefault(r => r.Name == roleName));
+            //return Context.WaitResult<IdentityRole>(() => Context.Roles.FirstOrDefault(r => r.Name == roleName));
+            return Task<IdentityRole>.Run(() => Context.Roles.FirstOrDefault(r => r.Name == roleName));
         }
 
         public Task UpdateAsync(IdentityRole role)

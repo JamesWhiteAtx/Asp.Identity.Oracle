@@ -111,7 +111,8 @@ namespace Asp.Identity.Oracle
 
         private Task<TUser> GetUserAggregateAsync(Expression<Func<TUser, bool>> filter)
         {
-            return Context.WrapWait<TUser>(() =>
+            //return Context.WaitResult<TUser>(() =>
+            return Task<IdentityUserLogin>.Run(() =>
                 Users.Include(u => u.Roles)
                     .Include(u => u.Claims)
                     .Include(u => u.Logins)
@@ -258,7 +259,10 @@ namespace Asp.Identity.Oracle
             var provider = login.LoginProvider;
             var key = login.ProviderKey;
             
-            var userLogin = await Context.WrapWait<IdentityUserLogin>(() => 
+//            var userLogin = await Context.WaitResult<IdentityUserLogin>(() => 
+//                Context.Logins.FirstOrDefault(l => l.LoginProvider == provider && l.ProviderKey == key));
+
+            var userLogin = await Task<IdentityUserLogin>.Run(() =>
                 Context.Logins.FirstOrDefault(l => l.LoginProvider == provider && l.ProviderKey == key));
 
             if (userLogin != null)

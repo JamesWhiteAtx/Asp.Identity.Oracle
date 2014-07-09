@@ -37,11 +37,10 @@ namespace Asp.Identity.Oracle
         {
         }
 
-        // wrap sync call with async wait
-        public async Task<TResult> WrapWait<TResult>(Func<TResult> function)
-        {
-            return await Task<TResult>.Run(function);
-        }
+        //public async Task<TResult> WaitResult<TResult>(Func<TResult> function)
+        //{
+        //    return await Task<TResult>.Run(function);
+        //}
 
         // entity framework 5 Async save
         public async Task<int> SaveEF5ChangesAsync()
@@ -65,15 +64,18 @@ namespace Asp.Identity.Oracle
                 if (user != null) 
                 {
 
-                    var dupes = from u in Users select u;
-                    dupes = (user.UserName == null) ? dupes.Where(u => u.UserName == null) : dupes.Where(u => u.UserName.ToUpper() == user.UserName.ToUpper());
-                    var any = dupes.Any();
+                    var dupNamed = from u in Users select u;
+                    dupNamed = (user.UserName == null) ? dupNamed.Where(u => u.UserName == null) : dupNamed.Where(u => u.UserName.ToUpper() == user.UserName.ToUpper());
+                    var any = dupNamed.Any();
                     if (any)
                     {
                         errors.Add(new DbValidationError("User", String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateUserName, user.UserName)));
                     }
-                    
-                    if (RequireUniqueEmail && Users.Any(u => String.Equals(u.Email, user.Email, StringComparison.OrdinalIgnoreCase)))
+
+                    var dupEmail = from u in Users select u;
+                    dupEmail = (user.Email == null) ? dupEmail.Where(u => u.Email == null) : dupEmail.Where(u => u.Email.ToUpper() == user.Email.ToUpper());
+                    var anyEmail = dupEmail.Any();
+                    if (anyEmail)
                     {
                         errors.Add(new DbValidationError("User",
                             String.Format(CultureInfo.CurrentCulture, IdentityResources.DuplicateEmail, user.Email)));
@@ -82,11 +84,18 @@ namespace Asp.Identity.Oracle
                 else
                 {
                     var role = entityEntry.Entity as IdentityRole; // TRole;
-                    //check for uniqueness of role name
-                    if ((role != null) && (role.Name != null) && (Roles.Any(r => String.Equals(r.Name, role.Name, StringComparison.OrdinalIgnoreCase))))
+                    if (role != null)
                     {
-                        errors.Add(new DbValidationError("Role",
-                            String.Format(CultureInfo.CurrentCulture, IdentityResources.RoleAlreadyExists, role.Name)));
+                        //check for uniqueness of role name
+                        var dupRoles = from u in Roles select u;
+                        dupRoles = (role.Name == null) ? dupRoles.Where(r => r.Name == null) : dupRoles.Where(r => r.Name.ToUpper() == role.Name.ToUpper());
+                        var anyRoles = dupRoles.Any();
+                        if (anyRoles)
+                        {
+                            errors.Add(new DbValidationError("Role",
+                                String.Format(CultureInfo.CurrentCulture, IdentityResources.RoleAlreadyExists, role.Name)));
+                        }
+                        
                     }
                 }
                 if (errors.Any())

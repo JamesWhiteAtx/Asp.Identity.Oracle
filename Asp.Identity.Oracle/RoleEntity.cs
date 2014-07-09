@@ -19,5 +19,10 @@ namespace Asp.Identity.Oracle
         {
             Id = Guid.NewGuid().ToString();
         }
+
+        public IdentityRole(string name) : this()
+        {
+            Name = name;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿create table ASP_IDNTY_USER
 (
   id                         VARCHAR2(45) not null,
-  username                   VARCHAR2(45),
+  username                   VARCHAR2(45) not null,
   passwordhash               VARCHAR2(100),
   securitystamp              VARCHAR2(45),
   email                      VARCHAR2(100),
@@ -19,15 +19,23 @@ ALTER TABLE SYSADM.ASP_IDNTY_USER
 ADD CONSTRAINT pk_aspidntyuser_id PRIMARY KEY (id)
 /
 
+ALTER TABLE SYSADM.ASP_IDNTY_USER
+ADD CONSTRAINT uk_aspidntyuser_name UNIQUE (username)
+/
+
 CREATE TABLE SYSADM.ASP_IDNTY_ROLE
 (
     id     VARCHAR2 (45 BYTE) NOT NULL,
-    name   VARCHAR2 (45 BYTE)
+    name   VARCHAR2 (45 BYTE) not null
 )
 /
 
 ALTER TABLE SYSADM.ASP_IDNTY_ROLE
-ADD CONSTRAINT pk_aspidntyrole_id PRIMARY KEY (id);
+ADD CONSTRAINT pk_aspidntyrole_id PRIMARY KEY (id)
+/
+
+alter table ASP_IDNTY_ROLE
+  add constraint UK_ASPIDNTYROLE_NAME unique (name)
 /
 
 CREATE TABLE SYSADM.ASP_IDNTY_USER_CLAIM
